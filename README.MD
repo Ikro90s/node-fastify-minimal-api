@@ -12,9 +12,9 @@
 
   <!-- Badges -->
 <div align="center">
-  
-  [![TypeScript version][ts-badge]][typescript-5-4]
-  [![Node.js version][nodejs-badge]][nodejs]
+
+[![TypeScript version][ts-badge]][typescript-5-4]
+[![Node.js version][nodejs-badge]][nodejs]
 
 </div>
 
@@ -34,6 +34,48 @@ This code source was developed with the following items:
 - `.gitignore` - Ignore folders like node_modules
 - `.env` - Enviroment variables
 - `tsconfig.json` - Typescript configure Options
+
+## 🧱 Project Architecture
+
+```text
+src/
+  app.ts
+  server.ts
+  config/
+    env.ts
+  plugins/
+    cors.ts
+  routes/
+    index.ts
+    team-routes.ts
+    driver-routes.ts
+  controllers/
+    team-controller.ts
+    driver-controller.ts
+  services/
+    team-service.ts
+    driver-service.ts
+  data/
+    teams.ts
+    drivers.ts
+  interfaces/
+    team.ts
+    driver.ts
+    http.ts
+  utils/
+    parse-id.ts
+```
+
+- `server.ts`: bootstrap e start do servidor.
+- `app.ts`: criação da instância Fastify e registro de plugins/rotas.
+- `config`: configurações e variáveis de ambiente.
+- `plugins`: plugins reutilizáveis (ex.: CORS).
+- `routes`: definição dos endpoints e composição das rotas.
+- `controllers`: camada HTTP, request/response.
+- `services`: regras de negócio e acesso ao domínio.
+- `data`: dados estáticos/mockados.
+- `interfaces`: contratos e tipos da aplicação.
+- `utils`: utilitários puros e reutilizáveis.
 
 ### ⚡ Scripts
 
