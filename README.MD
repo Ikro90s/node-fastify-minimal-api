@@ -1,41 +1,52 @@
-<div align="center">
+# Node Fastify Minimal API
 
-  <img src="./.github/assets/blue-saiyan-bg.png" alt="Logo" height="200">
-  <h1 align="center"><strong>NODE BOILERPLATE - BLUE EDITION</strong></h1>
-  <p align="center">
-	  Don't start a new Node project from zero!<br> Use this simple <b>Nodejs</b> boilerplate with pre-configured <b>Typescript</b> in a modern way.
+<div align="center">
+  <img src="./.github/assets/blue-saiyan-bg.png" alt="Banner do projeto" height="180" />
+  <h3>API minimalista com Fastify + TypeScript, organizada por camadas</h3>
+  <p>
+    Projeto de estudo com foco em arquitetura limpa para APIs pequenas e médias,<br />
+    separando responsabilidades em <b>routes</b>, <b>controllers</b>, <b>services</b>, <b>data</b>, <b>interfaces</b> e <b>utils</b>.
   </p>
-
 </div>
 
-<br />
+<p align="center">
+  <img src="https://img.shields.io/badge/Node.js-20%2B-1f6feb" alt="Node 20+" />
+  <img src="https://img.shields.io/badge/TypeScript-5.x-3178c6" alt="TypeScript 5" />
+  <img src="https://img.shields.io/badge/Fastify-5.x-000000" alt="Fastify 5" />
+</p>
 
-  <!-- Badges -->
-<div align="center">
+---
 
-[![TypeScript version][ts-badge]][typescript-5-4]
-[![Node.js version][nodejs-badge]][nodejs]
+## Visao geral
 
-</div>
+<table>
+  <tr>
+    <td><b>Objetivo</b></td>
+    <td>Expor endpoints REST simples com estrutura escalavel e facil manutencao</td>
+  </tr>
+  <tr>
+    <td><b>Stack</b></td>
+    <td>Node.js, TypeScript, Fastify, @fastify/cors</td>
+  </tr>
+  <tr>
+    <td><b>Porta padrao</b></td>
+    <td>3333 (configuravel por variavel de ambiente <code>PORT</code>)</td>
+  </tr>
+</table>
 
-# 🚀 Technologies
+## Fluxo da requisicao
 
-This code source was developed with the following items:
+<pre>
+Client HTTP
+   |
+   v
+Routes -> Controllers -> Services -> Data
+                     |
+                     v
+                Reply (JSON)
+</pre>
 
-### 📦 Dependencies
-
-- [typescript][typescript-npm] - Superset for application scale JavaScript development
-- [tsx][tsx-npm] - TypeScript Execute (tsx): Enable Node.js to run TypeScript
-- [tsup][tsup-npm] - Bundle your TypeScript library with no config, powered by esbuild
-- [@types/node][@types/node-npm] - type definitions for node
-
-### 📄 Files
-
-- `.gitignore` - Ignore folders like node_modules
-- `.env` - Enviroment variables
-- `tsconfig.json` - Typescript configure Options
-
-## 🧱 Project Architecture
+## Estrutura de pastas
 
 ```text
 src/
@@ -66,58 +77,115 @@ src/
     parse-id.ts
 ```
 
-- `server.ts`: bootstrap e start do servidor.
-- `app.ts`: criação da instância Fastify e registro de plugins/rotas.
-- `config`: configurações e variáveis de ambiente.
-- `plugins`: plugins reutilizáveis (ex.: CORS).
-- `routes`: definição dos endpoints e composição das rotas.
-- `controllers`: camada HTTP, request/response.
-- `services`: regras de negócio e acesso ao domínio.
-- `data`: dados estáticos/mockados.
-- `interfaces`: contratos e tipos da aplicação.
-- `utils`: utilitários puros e reutilizáveis.
+### Responsabilidade de cada camada
 
-### ⚡ Scripts
+<ul>
+  <li><b>server.ts</b>: ponto de entrada e inicializacao do servidor.</li>
+  <li><b>app.ts</b>: cria a instancia Fastify e registra plugins/rotas.</li>
+  <li><b>config</b>: centraliza variaveis de ambiente e configuracoes.</li>
+  <li><b>plugins</b>: componentes reutilizaveis do Fastify (ex: CORS).</li>
+  <li><b>routes</b>: define endpoints e conecta com controllers.</li>
+  <li><b>controllers</b>: recebe request, chama service e retorna response.</li>
+  <li><b>services</b>: concentra regra de negocio e consulta dados.</li>
+  <li><b>data</b>: fonte de dados mockada/local.</li>
+  <li><b>interfaces</b>: contratos e tipagens da aplicacao.</li>
+  <li><b>utils</b>: funcoes utilitarias reutilizaveis.</li>
+</ul>
 
-- `npm run dist`: Compiles TypeScript files to JavaScript in the dist directory.
-- `npm run start:dev`: Runs the server in development mode with environment variables loaded from the .env file.
-- `npm run start:watch`: Runs the server in development mode with support for automatic reload on file changes.
-- `npm run start:dist`: Compiles the project and runs the compiled version from the dist directory.
+## Endpoints
 
-# 👨‍💻 How To Use
+<table>
+  <thead>
+    <tr>
+      <th>Metodo</th>
+      <th>Rota</th>
+      <th>Descricao</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>GET</code></td>
+      <td><code>/teams</code></td>
+      <td>Lista todas as equipes</td>
+    </tr>
+    <tr>
+      <td><code>GET</code></td>
+      <td><code>/drivers</code></td>
+      <td>Lista todos os pilotos</td>
+    </tr>
+    <tr>
+      <td><code>GET</code></td>
+      <td><code>/drivers/:id</code></td>
+      <td>Busca piloto por ID (retorna 404 se nao encontrado)</td>
+    </tr>
+  </tbody>
+</table>
 
-click in **[Use this template]** OR
-
-To clone and run this application, you'll need [Git](https://git-scm.com), [Node.js v20+](https://nodejs.org/en/) + [NPM v10+](https://nodejs.org/en/) installed on your computer. From your command line:
+### Exemplo rapido com curl
 
 ```bash
-# Clone this repository
-$ git clone https://github.com/felipeAguiarCode/node-blue-boilerplate
-
-# Go into the repository
-$ cd node-blue-boilerplate
-
-# Install dependencies
-$ npm install
+curl -X GET http://localhost:3333/teams
+curl -X GET http://localhost:3333/drivers
+curl -X GET http://localhost:3333/drivers/1
 ```
 
-## Author
+## Como executar
 
-| [<img src="https://avatars3.githubusercontent.com/u/37452836?s=96&v=4"><br><sub>Felipe Aguiar</sub>](https://github.com/felipeAguiarCode) |
-| :---------------------------------------------------------------------------------------------------------------------------------------: |
-|                                            [Linkedin](www.linkedin.com/in/felipe-aguiar-exe/)                                             |
+### Requisitos
 
-# Credits
+<ul>
+  <li>Node.js 20+</li>
+  <li>pnpm (recomendado) ou npm</li>
+</ul>
 
-icons by [Pino Lamanna][dribble-icon]
+### Instalacao
 
-[typescript]: https://www.typescriptlang.org/
-[typescript-5-4]: https://www.typescriptlang.org/
-[ts-badge]: https://img.shields.io/badge/TypeScript-5.4-blue.svg
-[nodejs-badge]: https://img.shields.io/badge/Node.js->=%2020.00-blue.svg
-[nodejs]: https://nodejs.org/
-[dribble-icon]: https://dribbble.com/Schakalwal
-[typescript-npm]: https://www.npmjs.com/package/typescript
-[tsx-npm]: https://www.npmjs.com/package/tsx
-[tsup-npm]: https://www.npmjs.com/package/tsup
-[@types/node-npm]: https://www.npmjs.com/package/@types/node
+```bash
+pnpm install
+```
+
+### Scripts
+
+<table>
+  <thead>
+    <tr>
+      <th>Comando</th>
+      <th>Funcao</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>pnpm run start:dev</code></td>
+      <td>Executa API em desenvolvimento</td>
+    </tr>
+    <tr>
+      <td><code>pnpm run start:watch</code></td>
+      <td>Executa em watch mode com reload automatico</td>
+    </tr>
+    <tr>
+      <td><code>pnpm run dist</code></td>
+      <td>Gera build na pasta <code>dist</code></td>
+    </tr>
+    <tr>
+      <td><code>pnpm run start:dist</code></td>
+      <td>Compila e inicia versao de distribuicao</td>
+    </tr>
+  </tbody>
+</table>
+
+## Tecnologias
+
+<ul>
+  <li><a href="https://www.typescriptlang.org/">TypeScript</a></li>
+  <li><a href="https://www.npmjs.com/package/tsx">tsx</a></li>
+  <li><a href="https://www.npmjs.com/package/tsup">tsup</a></li>
+  <li><a href="https://www.npmjs.com/package/fastify">fastify</a></li>
+  <li><a href="https://www.npmjs.com/package/@fastify/cors">@fastify/cors</a></li>
+</ul>
+
+## Autor
+
+<p>
+  Baseado no boilerplate de
+  <a href="https://github.com/felipeAguiarCode">Felipe Aguiar</a>.
+</p>
